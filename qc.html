@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Quality Control | Logistic Packing System</title>
+
+    <link rel="icon" href="assets/logo.png">
+
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/qc.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- Sidebar -->
+    <aside id="sidebar"></aside>
+
+    <!-- Main -->
+    <div class="main">
+
+        <!-- Header -->
+        <header id="header"></header>
+
+        <!-- Content -->
+        <main id="content">
+
+            <!-- Page Title -->
+            <div class="page-title">
+
+                <h1>Quality Control</h1>
+
+                <p>Pemeriksaan Barang Berdasarkan Serial Number</p>
+
+            </div>
+
+            <!-- ========================= -->
+            <!-- CREATE RECEIVING -->
+            <!-- ========================= -->
+
+                <div class="receiving-card">
+
+    <div class="card-header">
+        <h3>Scan Barang</h3>
+    </div>
+
+    <div class="form-group">
+
+        <label>Scan Serial Number atau SKU</label>
+
+        <input
+            type="text"
+            id="serialInput"
+            class="input"
+            placeholder="Scan Serial Number">
+
+    </div>
+
+    <div class="form-group">
+
+        <label>Hasil QC</label>
+
+        <div class="priority-option">
+
+            <label class="radio-card">
+
+                <label class="radio-card">
+
+    <input
+        id="passRadio"
+        type="radio"
+        name="qcResult"
+        value="PASS"
+        disabled>
+
+    <span>🟢 PASS</span>
+
+</label>
+
+<label class="radio-card">
+
+    <input
+        id="pendingRadio"
+        type="radio"
+        name="qcResult"
+        value="PENDING"
+        disabled>
+
+    <span>🟡 PENDING</span>
+
+</label>
+
+<label class="radio-card">
+
+    <input
+        id="rejectRadio"
+        type="radio"
+        name="qcResult"
+        value="REJECT"
+        disabled>
+
+    <span>🔴 REJECT</span>
+
+</label>
+
+        </div>
+
+    </div>
+
+    <div class="form-group">
+
+        <label>Catatan</label>
+
+        <textarea
+            id="noteInput"
+            class="input"
+            rows="3"></textarea>
+
+    </div>
+
+    <div class="qc-action">
+
+    <button
+        id="btnProcessQC"
+        class="btn btn-primary"
+        disabled>
+
+        ✔ Proses QC
+
+    </button>
+
+    <button
+        id="btnFinishQC"
+        class="btn btn-success"
+        disabled>
+
+        ✅ Selesai QC
+
+    </button>
+
+</div>
+
+</div>
+
+            <!-- ========================= -->
+<!-- DASHBOARD -->
+<!-- ========================= -->
+
+<div class="dashboard-grid">
+
+    <!-- Informasi Receiving -->
+    <div class="receiving-card">
+
+        <div class="card-header">
+            <h3>Informasi QC</h3>
+        </div>
+        
+            <div class="info-list">
+
+    <div class="info-item">
+        <span>Resi Aktif</span>
+        <strong id="activeResi">-</strong>
+    </div>
+
+    <div class="info-item">
+        <span>Operator</span>
+        <strong id="operatorName">-</strong>
+    </div>
+
+    <div class="info-item">
+        <span>Total Barang</span>
+        <strong id="totalItem">0</strong>
+    </div>
+
+    <div class="info-item">
+        <span>Catatan Receiving</span>
+        <strong id="qcReceivingNote">-</strong>
+    </div>
+
+    <div class="info-item">
+        <span>Pending</span>
+        <strong id="pendingItem">0</strong>
+    </div>
+
+    <div class="info-item">
+        <span>PASS</span>
+        <strong id="passItem">0</strong>
+    </div>
+
+    <div class="info-item">
+        <span>Reject</span>
+        <strong id="rejectItem">0</strong>
+    </div>
+
+</div>
+
+        </div>
+
+    </div>
+
+    <!-- Last Scan -->
+    <div class="receiving-card">
+
+        <div class="card-header">
+            <h3>Last Scan</h3>
+        </div>
+
+        <div class="info-list">
+
+            <div class="info-item">
+                <span>SKU</span>
+                <strong id="lastSku">-</strong>
+            </div>
+
+            <div class="info-item">
+                <span>Serial Number</span>
+                <strong id="lastSerial">-</strong>
+            </div>
+
+            <div class="info-item">
+                <span>Waktu Scan</span>
+                </span>
+                <strong id="lastTime">-</strong>
+            </div>
+
+        </div>
+
+        <div class="card mt-4">
+
+    <div class="card-header">
+        History QC
+    </div>
+
+    <table class="table">
+
+        <thead>
+
+            <tr>
+                <th>Waktu</th>
+                <th>SKU</th>
+                <th>Serial</th>
+                <th>Status</th>
+            </tr>
+
+        </thead>
+
+        <tbody id="qcHistoryBody">
+
+            <tr>
+
+                <td colspan="4" style="text-align:center">
+
+                    Belum ada aktivitas
+
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+    </div>
+
+</div>
+            
+            <!-- ========================= -->
+            <!-- DAFTAR BARANG -->
+            <!-- ========================= -->
+
+            <div class="receiving-card">
+
+                <div class="card-header">
+
+                    <h3>QUEUE QC</h3>
+
+                </div>
+
+                <div class="table-responsive">
+
+    <table class="table">
+
+        <thead>
+
+<tr>
+
+<th>No</th>
+<th>SKU</th>
+<th>Serial Number</th>
+<th>Status QC</th>
+
+</tr>
+
+</thead>
+
+        <tbody id="qcTableBody">
+
+</tbody>
+
+    </table>
+
+</div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</div>
+
+<!-- Toast Notification -->
+<div id="toastContainer" class="toast-container"></div>
+
+<script src="components/sidebar.js"></script>
+<script src="components/header.js"></script>
+
+<script src="js/api.js"></script>
+<script src="js/qc.js"></script>
+<script src="js/layout.js"></script>
+</body>
+
+</html>

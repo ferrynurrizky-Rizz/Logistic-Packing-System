@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Logistic Packing System</title>
+
+    <meta name="theme-color" content="#0B1120">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+    <!-- Animated Background -->
+    <div class="background">
+
+        <div class="bg-circle circle1"></div>
+        <div class="bg-circle circle2"></div>
+        <div class="bg-circle circle3"></div>
+
+    </div>
+
+    <!-- Login Container -->
+
+    <main class="login-container">
+
+        <section class="login-card">
+
+            <!-- Logo -->
+
+            <div class="logo-area">
+
+                <img src="assets/logo.png" alt="RIZZ Logo" class="logo">
+
+                <h1>LOGISTIC PACKING SYSTEM</h1>
+
+                <p class="subtitle">
+
+                    Warehouse Management & Delivery
+
+                </p>
+
+            </div>
+
+            <!-- Date Time -->
+
+            <div class="datetime">
+
+                <div class="date-item">
+
+                <span>📅</span>
+
+                 <span id="todayDate"></span>
+
+             </div>
+
+            <div class="date-item">
+
+                 <span>🕒</span>
+
+                <span id="clock"></span>
+
+             </div>
+
+</div>
+
+            <!-- Login Form -->
+
+            <form id="loginForm">
+
+                <div class="input-group">
+
+    <label>Username</label>
+
+    <div class="input-icon">
+
+        <span class="icon">👤</span>
+
+        <input
+            type="text"
+            id="username"
+            placeholder="Masukkan Username"
+            autocomplete="off">
+
+    </div>
+
+</div>
+
+                <div class="input-group">
+
+                    <label>Password</label>
+
+                    <div class="password-box">
+
+    <span class="icon">🔒</span>
+
+    <input
+        type="password"
+        id="password"
+        placeholder="Masukkan Password">
+
+    <button
+        type="button"
+        id="togglePassword">
+
+        👁
+
+    </button>
+
+</div>
+
+                </div>
+
+                <div class="remember">
+
+                    <label>
+
+                        <input type="checkbox" id="remember">
+
+                        Remember Me
+
+                    </label>
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="login-btn">
+
+                    LOGIN
+
+                </button>
+
+            </form>
+
+            <!-- Footer -->
+
+            <footer>
+
+                <div>
+
+                    Version 1.0
+
+                </div>
+
+                <small>
+
+                    © 2026 RIZZ
+
+                </small>
+
+            </footer>
+
+        </section>
+
+    </main>
+
+    <!-- Toast -->
+
+    <div id="toast"></div>
+    <script src="js/api.js"></script>
+    <script src="js/login.js"></script>
+
+</body>
+
+</html>

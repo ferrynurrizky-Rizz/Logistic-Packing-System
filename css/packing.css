@@ -1,0 +1,121 @@
+/* ===========================
+   GLOBAL
+=========================== */
+
+/* ===========================
+   PAGE TITLE
+=========================== */
+
+/* ===========================
+   CARD
+=========================== */
+
+.packing-card{
+
+    margin-bottom:24px;
+
+}
+
+.card-header{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-bottom:20px;
+
+}
+
+.card-header h3{
+
+    font-size:18px;
+
+    font-weight:700;
+
+}
+
+/* ===========================
+   FORM
+=========================== */
+
+/* ===========================
+   BUTTON
+=========================== */
+
+/* ===========================
+   INFO GRID
+=========================== */
+
+.info-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+
+    gap:20px;
+
+}
+
+.info-grid div{
+
+    background:#1b2a40;
+
+    border-radius:10px;
+
+    padding:16px;
+
+}
+
+.info-grid span{
+
+    display:block;
+
+    color:#94a3b8;
+
+    margin-bottom:8px;
+
+    font-size:14px;
+
+}
+
+.info-grid strong{
+
+    font-size:18px;
+
+}
+
+/* ===========================
+   ITEM LIST
+=========================== */
+
+#itemList{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media(max-width:768px){
+
+    #content{
+
+        padding:20px;
+
+    }
+
+    .page-title h1{
+
+        font-size:24px;
+
+    }
+
+}

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Packing | Logistic Packing System</title>
+
+    <link rel="icon" href="assets/logo.png">
+
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/packing.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- Sidebar -->
+    <aside id="sidebar"></aside>
+
+    <!-- Main -->
+    <div class="main">
+
+        <!-- Header -->
+        <header id="header"></header>
+
+        <!-- Content -->
+        <main id="content">
+
+            <!-- Page Title -->
+            <div class="page-title">
+
+                <h1>Packing</h1>
+
+                <p>Proses Packing Barang</p>
+
+            </div>
+
+            <!-- ========================= -->
+            <!-- CREATE PACKING -->
+            <!-- ========================= -->
+
+            <div class="card packing-card">
+
+                <div class="card-header">
+
+                    <h3>Create Packing</h3>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Nomor Resi</label>
+
+                    <input
+                         type="text"
+                        id="resiInput"
+                        class="input"
+                        placeholder="Masukkan nomor resi">
+
+                </div>
+
+                <button
+                        id="btnCreatePacking"
+                        class="btn btn-primary">
+
+                    Buat Packing
+
+                </button>
+
+            </div>
+
+            <!-- ========================= -->
+            <!-- INFO PACKING -->
+            <!-- ========================= -->
+
+            <div class="card packing-card">
+
+                <div class="card-header">
+
+                    <h3>Informasi Packing</h3>
+
+                </div>
+
+                <div class="info-grid">
+
+                    <div>
+
+                        <span>Status</span>
+
+                        <strong id="packingStatus">
+
+                            -
+
+                        </strong>
+
+                    </div>
+
+                    <div>
+
+                        <span>Operator</span>
+
+                        <strong id="packingOperator">
+
+                            -
+
+                        </strong>
+
+                    </div>
+
+                    <div>
+
+                        <span>Start Time</span>
+
+                        <strong id="startTime">
+
+                            -
+
+                        </strong>
+
+                    </div>
+
+                    <div>
+
+                        <span>Finish Time</span>
+
+                        <strong id="finishTime">
+
+                            -
+
+                        </strong>
+
+                    </div>
+
+                    <div>
+
+                        <span>Total Item</span>
+
+                        <strong id="totalItem">
+
+                            0
+
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ========================= -->
+            <!-- SCAN BARCODE -->
+            <!-- ========================= -->
+
+            <div class="card packing-card">
+
+                <div class="card-header">
+
+                    <h3>Scan Barang</h3>
+
+                </div>
+
+                <input
+                    type="text"
+                    id="barcodeInput"
+                    class="input"
+                    placeholder="Scan barcode..."
+                    disabled>
+
+            </div>
+
+            <!-- ========================= -->
+            <!-- DAFTAR BARANG -->
+            <!-- ========================= -->
+
+            <div class="card packing-card">
+
+                <div class="card-header">
+
+                    <h3>Daftar Barang</h3>
+
+                </div>
+
+                <div id="itemList">
+
+                    <div class="empty-state">
+
+                        Belum ada barang yang dipindai.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</div>
+
+<script src="components/sidebar.js"></script>
+<script src="components/header.js"></script>
+
+<script src="js/api.js"></script>
+<script src="js/packing.js"></script>
+<script src="js/layout.js"></script>
+</body>
+
+</html>

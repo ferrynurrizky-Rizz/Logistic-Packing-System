@@ -1,0 +1,318 @@
+/* =====================================
+   RESET
+===================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:"Plus Jakarta Sans",sans-serif;
+    background:#07111d;
+    color:#ffffff;
+}
+
+/* =====================================
+   APP LAYOUT
+===================================== */
+
+.app{
+    display:flex;
+    min-height:100vh;
+}
+
+.main{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+
+    transition:.30s ease;
+}
+
+#content{
+    flex:1;
+    padding:35px;
+}
+
+/* =====================================
+   SIDEBAR
+===================================== */
+
+.sidebar{
+    width:250px;
+    background:#111c2d;
+    display:flex;
+    flex-direction:column;
+    height:100vh;
+    position:sticky;
+    top:0;
+    left:0;
+
+    transition:width .30s ease;
+}
+
+.logo{
+    height:70px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:0 20px;
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.logo img{
+    width:42px;
+    height:42px;
+}
+
+.logo h2{
+    font-size:22px;
+    font-weight:700;
+}
+
+/* =====================================
+   SIDEBAR MENU
+===================================== */
+
+.menu{
+    display:flex;
+    flex-direction:column;
+    margin-top:20px;
+    gap:8px;
+}
+
+.menu-item{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:14px 18px;
+    border-radius:10px;
+    color:#cbd5e1;
+    text-decoration:none;
+    transition:.25s;
+}
+
+.menu-item:hover{
+    background:#1e3a5f;
+    color:white;
+}
+
+.menu-item.active{
+    background:#2563eb;
+    color:white;
+    font-weight:600;
+}
+
+.icon{
+    width:24px;
+    text-align:center;
+}
+
+/* =====================================
+   SIDEBAR FOOTER
+===================================== */
+
+.sidebar-footer{
+    margin-top:auto;
+    padding:20px;
+}
+
+.logout-btn{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    background:#ef4444;
+    color:white;
+    font-size:15px;
+    transition:.25s;
+}
+
+.logout-btn:hover{
+    background:#dc2626;
+}
+
+/* =====================================
+   SIDEBAR COLLAPSE
+===================================== */
+
+.app.sidebar-collapsed .sidebar{
+
+    width:80px;
+
+}
+
+.app.sidebar-collapsed .logo{
+
+    justify-content:center;
+    padding:0;
+
+}
+
+.app.sidebar-collapsed .logo h2{
+
+    display:none;
+
+}
+
+.app.sidebar-collapsed .menu-item{
+
+    justify-content:center;
+
+}
+
+.app.sidebar-collapsed .menu-item span{
+
+    display:none;
+
+}
+
+.app.sidebar-collapsed .sidebar-footer{
+
+    display:flex;
+    justify-content:center;
+
+}
+
+/* =====================================
+   HEADER
+===================================== */
+
+.header{
+    height:72px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 28px;
+    background:#162338;
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.header-left{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:24px;
+}
+
+.icon-btn{
+    width:42px;
+    height:42px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    background:#22314b;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.icon-btn:hover{
+    background:#2d4366;
+}
+
+.clock{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:#cbd5e1;
+}
+
+.user-info{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.avatar{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:#2563eb;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:700;
+}
+
+.user-detail{
+    display:flex;
+    flex-direction:column;
+    line-height:1.2;
+}
+
+.user-detail small{
+    color:#94a3b8;
+    font-size:12px;
+}
+
+/* =====================================
+   PAGE TITLE
+===================================== */
+
+.page-title{
+    margin-bottom:30px;
+}
+
+.page-title h1{
+    font-size:32px;
+    font-weight:700;
+}
+
+.page-title p{
+    margin-top:10px;
+    color:#94a3b8;
+}
+
+/* =====================================
+   RESPONSIVE
+===================================== */
+
+@media(max-width:992px){
+
+    .sidebar{
+        width:80px;
+    }
+
+    .logo h2,
+    .menu-item span,
+    .user-detail{
+        display:none;
+    }
+
+    .menu-item{
+        justify-content:center;
+    }
+
+}
+
+@media(max-width:768px){
+
+    .app{
+        flex-direction:column;
+    }
+
+    .sidebar{
+        width:100%;
+        height:auto;
+        position:relative;
+    }
+
+    .header{
+        padding:0 16px;
+    }
+
+    #content{
+        padding:20px;
+    }
+
+}

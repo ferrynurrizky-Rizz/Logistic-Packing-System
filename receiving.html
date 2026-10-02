@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Receiving | Logistic Packing System</title>
+
+    <link rel="icon" href="assets/logo.png">
+
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/receiving.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- Sidebar -->
+    <aside id="sidebar"></aside>
+
+    <!-- Main -->
+    <div class="main">
+
+        <!-- Header -->
+        <header id="header"></header>
+
+        <!-- Content -->
+        <main id="content">
+
+            <!-- Page Title -->
+            <div class="page-title">
+
+                <h1>Receiving</h1>
+
+                <p>Proses Penerimaan Barang</p>
+
+            </div>
+
+            <!-- ========================= -->
+            <!-- CREATE RECEIVING -->
+            <!-- ========================= -->
+
+            <div class="receiving-card">
+
+                <div class="card-header">
+
+                    <h3>Scan Barcode</h3>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Nomor Resi</label>
+
+<input
+    type="text"
+    id="resiInput"
+    class="input"
+    placeholder="Masukkan nomor resi">
+
+<div class="priority-group">
+
+    <label>Prioritas</label>
+
+    <div class="priority-option">
+
+        <label class="radio-card">
+
+            <input
+                type="radio"
+                name="priority"
+                value="Regular"
+                checked>
+
+            <span>🟢 Regular</span>
+
+        </label>
+
+        <label class="radio-card">
+
+            <input
+                type="radio"
+                name="priority"
+                value="Instan">
+
+            <span>🔴 Instan</span>
+
+        </label>
+
+    </div>
+
+</div>
+                    
+                    <input
+                         type="text"
+                        id="skuInput"
+                        class="input"
+                        placeholder="Masukkan SKU">
+
+                    <input
+                         type="text"
+                        id="serialInput"
+                        class="input"
+                        placeholder="Masukkan Serial Number">
+                </div>
+
+                <div class="form-group">
+
+    <label>Catatan</label>
+
+    <textarea
+        id="noteInput"
+        class="input"
+        rows="3"
+        placeholder="Contoh : Adjust 15Cm, Urut Kepala Just Cavali"></textarea>
+
+</div>
+
+                <div class="receiving-action">
+
+    <button
+        id="btnSaveItem"
+        class="btn btn-primary"
+        disabled>
+
+        💾 Simpan Barang
+
+    </button>
+
+    <button
+        id="btnFinishReceiving"
+        class="btn btn-success"
+        style="display:none;">
+
+        ✅ Selesai Receiving
+
+    </button>
+
+</div>
+
+            <!-- ========================= -->
+<!-- DASHBOARD -->
+<!-- ========================= -->
+
+<div class="dashboard-grid">
+
+    <!-- Informasi Receiving -->
+    <div class="receiving-card">
+
+        <div class="card-header">
+            <h3>Informasi Receiving</h3>
+        </div>
+
+        <div class="info-list">
+
+            <div class="info-item">
+                <span>Resi Aktif</span>
+                <strong id="activeResi">-</strong>
+            </div>
+
+            <div class="info-item">
+                <span>Operator</span>
+                <strong id="receivingOperator">-</strong>
+            </div>
+
+            <div class="info-item">
+                <span>Status</span>
+                <strong id="receivingStatus">READY</strong>
+            </div>
+
+            <div class="info-item">
+                <span>Total SKU</span>
+                <strong id="totalSKU">0</strong>
+            </div>
+
+            <div class="info-item">
+                <span>Total Unit</span>
+                <strong id="totalUnit">0</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Last Scan -->
+    <div class="receiving-card">
+
+        <div class="card-header">
+            <h3>Last Scan</h3>
+        </div>
+
+        <div class="info-list">
+
+            <div class="info-item">
+                <span>SKU</span>
+                <strong id="lastSku">-</strong>
+            </div>
+
+            <div class="info-item">
+                <span>Serial Number</span>
+                <strong id="lastSerial">-</strong>
+            </div>
+
+            <div class="info-item">
+                <span>Waktu Scan</span>
+                </span>
+                <strong id="lastTime">-</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+            
+            <!-- ========================= -->
+            <!-- DAFTAR BARANG -->
+            <!-- ========================= -->
+
+            <div class="receiving-card">
+
+                <div class="card-header">
+
+                    <h3>Daftar Sku Diterima</h3>
+
+                </div>
+
+                <div class="table-responsive">
+
+    <table class="table">
+
+        <thead>
+
+<tr>
+
+<th></th>
+
+<th>SKU</th>
+
+<th>Qty</th>
+
+<th>Detail</th>
+
+</tr>
+
+</thead>
+
+        <tbody id="receivingTableBody">
+
+            <tr id="emptyRow">
+
+                <td colspan="4" class="text-center">
+
+                    Belum ada barang yang dipindai.
+
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</div>
+
+<!-- Toast Notification -->
+<div id="toastContainer" class="toast-container"></div>
+
+<script src="components/sidebar.js"></script>
+<script src="components/header.js"></script>
+
+<script src="js/api.js"></script>
+<script src="js/receiving.js"></script>
+<script src="js/layout.js"></script>
+</body>
+
+</html>
