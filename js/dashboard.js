@@ -212,7 +212,11 @@ async function loadDashboard(){
 
     try{
 
+        console.time("DASHBOARD API");
+
         const response = await getDashboardData();
+
+        console.timeEnd("DASHBOARD API");
 
         if(!response.success){
 

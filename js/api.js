@@ -12,16 +12,30 @@ async function callAPI(data) {
             formData.append(key, data[key]);
         });
 
-        const response = await fetch(API_URL, {
-            method: "POST",
-            body: formData
-        });
+       console.time("API FETCH");
 
-        const text = await response.text();
+const response = await fetch(API_URL, {
+    method: "POST",
+    body: formData
+});
+
+console.timeEnd("API FETCH");
+
+        console.time("API RESPONSE TEXT");
+
+const text = await response.text();
+
+console.timeEnd("API RESPONSE TEXT");
 
         console.log("RAW RESPONSE :", text);
 
-        return JSON.parse(text);
+        console.time("API JSON PARSE");
+
+const result = JSON.parse(text);
+
+console.timeEnd("API JSON PARSE");
+
+return result;
 
     } catch (error) {
 
@@ -45,6 +59,20 @@ async function getDashboardData() {
     return await callAPI({
 
         action: "dashboard"
+
+    });
+
+}
+
+// ======================================
+// INVENTORY
+// ======================================
+
+async function getInventoryData() {
+
+    return await callAPI({
+
+        action: "inventory"
 
     });
 

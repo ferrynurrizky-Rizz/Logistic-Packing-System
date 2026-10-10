@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Inventory | Logistic Packing System</title>
+
+    <link rel="icon" href="assets/logo.png">
+
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+
+    <!-- Inventory CSS -->
+    <link rel="stylesheet" href="css/inventory.css">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- SIDEBAR -->
+        <aside id="sidebar"></aside>
+
+        <!-- MAIN -->
+        <div class="main">
+
+            <!-- HEADER -->
+            <header id="header"></header>
+
+            <!-- CONTENT -->
+            <main id="content">
+
+                <!-- PAGE HEADER -->
+                <section class="page-header">
+
+                    <div>
+                        <h1>Inventory</h1>
+
+                        <p>
+                            Analisis Persediaan Barang
+                        </p>
+                    </div>
+
+                </section>
+
+
+
+<!-- FILTER -->
+<section class="inventory-filter">
+
+    <div class="filter-group">
+        <label for="filterBrand">Brand</label>
+        <select id="filterBrand">
+            <option value="">Semua Brand</option>
+        </select>
+    </div>
+
+    <div class="filter-group">
+        <label for="filterType">Type</label>
+        <select id="filterType">
+            <option value="">Semua Type</option>
+        </select>
+    </div>
+
+    <div class="filter-group">
+        <label for="filterSKU">SKU</label>
+        <select id="filterSKU">
+            <option value="">Semua SKU</option>
+        </select>
+    </div>
+
+    <div class="filter-group">
+        <label for="filterStockStatus">Status Stock</label>
+        <select id="filterStockStatus">
+            <option value="">Semua Status</option>
+            <option value="AVAILABLE">Available</option>
+            <option value="RESERVED">Reserved</option>
+            <option value="OUT_OF_STOCK">Out of Stock</option>
+        </select>
+    </div>
+
+</section>
+
+<!-- KPI -->
+<section class="inventory-kpi">
+
+    <!-- TOTAL SKU -->
+    <div class="kpi-card">
+
+        <div class="kpi-icon">
+            <i data-lucide="package"></i>
+        </div>
+
+        <div class="kpi-content">
+
+            <span class="kpi-label">
+                Total SKU
+            </span>
+
+            <strong id="totalSKU">
+                0
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- TOTAL STOCK -->
+    <div class="kpi-card">
+
+        <div class="kpi-icon">
+            <i data-lucide="boxes"></i>
+        </div>
+
+        <div class="kpi-content">
+
+            <span class="kpi-label">
+                Total Stock
+            </span>
+
+            <strong id="totalStock">
+                0
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- RESERVED STOCK -->
+    <div class="kpi-card">
+
+        <div class="kpi-icon">
+            <i data-lucide="bookmark"></i>
+        </div>
+
+        <div class="kpi-content">
+
+            <span class="kpi-label">
+                Reserved Stock
+            </span>
+
+            <strong id="reservedStock">
+                0
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- AVAILABLE STOCK -->
+    <div class="kpi-card">
+
+        <div class="kpi-icon">
+            <i data-lucide="circle-check"></i>
+        </div>
+
+        <div class="kpi-content">
+
+            <span class="kpi-label">
+                Available Stock
+            </span>
+
+            <strong id="availableStock">
+                0
+            </strong>
+
+        </div>
+
+    </div>
+
+</section>
+
+ 
+                <!-- CHART SECTION -->
+                <section class="inventory-charts">
+
+                    <!-- TOP BARANG -->
+                    <div class="chart-card">
+
+                        <div class="chart-header">
+
+                            <div>
+                                <h2>
+                                    Top Barang
+                                </h2>
+
+                                <p>
+                                    Barang dengan jumlah inventory tertinggi
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <div class="chart-container">
+
+                            <div id="topItemChart"></div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- DISTRIBUSI INVENTORY -->
+                    <div class="chart-card">
+
+                        <div class="chart-header">
+
+                            <div>
+                                <h2>
+                                    Distribusi Inventory
+                                </h2>
+
+                                <p>
+                                    Distribusi jumlah inventory
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <div class="chart-container">
+
+                            <div id="inventoryDistributionChart"></div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- DETAIL TABLE -->
+                <section class="inventory-table-card">
+
+                    <div class="table-header">
+
+                        <div>
+
+                            <h2>
+                                Detail Inventory
+                            </h2>
+
+                            <p>
+                                Daftar persediaan barang
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="table-wrapper">
+
+                        <table id="inventoryTable">
+
+    <thead>
+
+        <tr>
+
+            <th>No</th>
+
+            <th>SKU</th>
+
+            <th>Product</th>
+
+            <th>Brand</th>
+
+            <th>Type</th>
+
+            <th>Stock</th>
+
+            <th>Reserved</th>
+
+            <th>Available</th>
+
+            <th>Status</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody id="inventoryTableBody">
+
+        <tr>
+
+            <td colspan="9" class="empty-state">
+                Belum ada data inventory.
+            </td>
+
+        </tr>
+
+    </tbody>
+
+</table>
+
+                    </div>
+
+                </section>
+
+            </main>
+
+        </div>
+
+    </div>
+
+
+    <!-- GLOBAL JS -->
+
+    <script src="js/api.js"></script>
+
+    <script src="components/sidebar.js"></script>
+
+    <script src="components/header.js"></script>
+
+    <script src="js/layout.js"></script>
+
+
+    <!-- INVENTORY JS -->
+
+    <script src="js/inventory.js"></script>
+
+
+    <!-- ICON INITIALIZATION -->
+
+    <script>
+        lucide.createIcons();
+    </script>
+
+</body>
+
+</html>
