@@ -301,7 +301,10 @@ async function processQC() {
 
     }
 
-    const response = await callAPI({
+    
+const user = getCurrentUser() || {};
+
+const response = await callAPI({
 
     action: "saveQCResult",
 
@@ -311,9 +314,10 @@ async function processQC() {
 
     note: note,
 
-    operator: localStorage.getItem("operator") || ""
+    operator: user.nama || user.username || ""
 
 });
+
 
     if (!response.success) {
 
@@ -414,15 +418,19 @@ async function finishQC() {
 
     }
 
-    const response = await callAPI({
+    
+const user = getCurrentUser() || {};
 
-        action: "finishQC",
+const response = await callAPI({
 
-        resi: currentResi,
+    action: "finishQC",
 
-        operator: localStorage.getItem("operator") || ""
+    resi: currentResi,
 
-    });
+    operator: user.nama || user.username || ""
+
+});
+
 
     if (!response.success) {
 

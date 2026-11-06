@@ -44,6 +44,7 @@ barcodeInput.addEventListener("keydown", handleBarcodeScan);
 // CREATE PACKING
 // ======================================
 
+
 async function createPacking() {
 
     const resi = document
@@ -52,17 +53,20 @@ async function createPacking() {
         .trim();
 
     if (resi === "") {
-
         alert("Nomor resi wajib diisi.");
         return;
-
     }
 
-    const user = JSON.parse(
-        sessionStorage.getItem("user") || "{}"
-    );
+    // Ambil identitas pengguna yang sedang login
+    const user = getCurrentUser() || {};
 
-    const operator = user.nama || "Unknown";
+    const operator =
+        user.nama || user.username || "";
+
+    if (!operator) {
+        alert("Identitas operator tidak ditemukan. Silakan login kembali.");
+        return;
+    }
 
     console.log({
         action: "createPacking",
@@ -79,39 +83,38 @@ async function createPacking() {
     console.log(result);
 
     if (!result.success) {
+        alert(result.message);
+        return;
+    }
 
-    alert(result.message);
-    return;
+    packingSession = {
 
-}
+        id: result.data.no,
 
-packingSession = {
+        resi,
 
-    id: result.data.no,
+        operator,
 
-    resi,
+        status: result.data.status,
 
-    operator,
+        startTime: new Date(),
 
-    status: result.data.status,
+        finishTime: null,
 
-    startTime: new Date(),
+        totalItem: 0,
 
-    finishTime: null,
+        items: []
 
-    totalItem: 0,
+    };
 
-    items: []
+    renderPackingInfo();
 
-};
+    enableBarcodeScan();
 
-renderPackingInfo();
-
-enableBarcodeScan();
-
-alert("Packing berhasil dibuat.");
+    alert("Packing berhasil dibuat.");
 
 }
+
 
 // ======================================
 // UPDATE PACKING INFO

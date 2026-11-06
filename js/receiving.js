@@ -2,6 +2,9 @@
 // RECEIVING SESSION
 // ======================================
 
+
+let isSavingReceiving = false;
+
 const receivingSession = {
 
     active: false,
@@ -29,6 +32,7 @@ const receivingSession = {
     }
 
 };
+
 
 // ======================================
 // HELPER
@@ -183,13 +187,19 @@ document.addEventListener("DOMContentLoaded", () => {
 // INIT
 // ======================================
 
+
 function initReceiving() {
 
-    const user =
-        JSON.parse(sessionStorage.getItem("user") || "{}");
+    const user = getCurrentUser() || {};
 
     receivingSession.operator =
-    user.nama || "Unknown";
+        user.nama || user.username || "";
+
+    if (!receivingSession.operator) {
+        console.error("Operator tidak ditemukan:", user);
+        alert("Sesi pengguna tidak ditemukan. Silakan login kembali.");
+        return;
+    }
 
     receivingSession.startedAt = new Date();
 
@@ -206,6 +216,7 @@ function initReceiving() {
         .focus();
 
 }
+
 
 // ======================================
 // BIND EVENTS
@@ -297,16 +308,24 @@ function bindEvents() {
 // SAVE RECEIVING
 // ======================================
 
+
 async function saveReceiving() {
 
-    const resi =
-        document.getElementById("resiInput");
+    
+    if (isSavingReceiving) {
+        showToast(
+            "Penyimpanan sedang diproses. Mohon tunggu.",
+            "warning"
+        );
+        return;
+    }
 
-    const sku =
-        document.getElementById("skuInput");
 
-    const serial =
-        document.getElementById("serialInput");
+    const resi = document.getElementById("resiInput");
+    const sku = document.getElementById("skuInput");
+    const serial = document.getElementById("serialInput");
+
+    const saveButton = document.getElementById("btnSaveItem");
 
     const currentResi = resi.value.trim();
     const currentSKU = sku.value.trim();
@@ -316,180 +335,217 @@ async function saveReceiving() {
         return;
     }
 
-    // Sinkronkan Priority & Catatan
     updateSessionData();
 
     if (receivingSession.resi === "") {
 
         showToast(
-    "Silakan scan nomor resi terlebih dahulu.",
-    "warning"
-);
+            "Silakan scan nomor resi terlebih dahulu.",
+            "warning"
+        );
 
         return;
-
     }
 
-    if (sku.value.trim() === "") {
+    if (currentSKU === "") {
 
         showToast(
-    "SKU tidak boleh kosong.",
-    "warning"
-);
+            "SKU tidak boleh kosong.",
+            "warning"
+        );
 
         sku.focus();
 
         return;
-
     }
 
-    if ( currentSerial && serialExists(currentSerial)) {
+    if (currentSerial && serialExists(currentSerial)) {
 
-    showToast(
-        "Serial Number sudah pernah dipindai.",
-        "error"
-    );
+        showToast(
+            "Serial Number sudah pernah dipindai.",
+            "error"
+        );
 
-    serial.select();
-
-    return;
-
-}
-
-    console.log(receivingSession);
-    const result = await callAPI({
-
-    action: "createReceiving",
-
-    resi: receivingSession.resi,
-
-    sku: currentSKU,
-
-    serial: currentSerial,
-
-    priority: receivingSession.priority,
-
-    note: receivingSession.note,
-
-    operator: receivingSession.operator
-
-});
-
-    console.log(result);
-
-    if (!result.success) {
-
-        showToast(result.message, "error");
+        serial.select();
 
         return;
+    }
+
+    // Kunci proses sebelum API dipanggil
+    isSavingReceiving = true;
+    saveButton.disabled = true;
+
+    try {
+
+        
+        // ===============================
+        // ANTI DOUBLE CLICK
+        // ===============================
+
+        isSavingReceiving = true;
+
+        let result;
+
+        try {
+
+            console.log(receivingSession);
+
+            result = await callAPI({
+
+                action: "createReceiving",
+
+                resi: receivingSession.resi,
+
+                sku: currentSKU,
+
+                serial: currentSerial,
+
+                priority: receivingSession.priority,
+
+                note: receivingSession.note,
+
+                operator: receivingSession.operator
+
+            });
+
+            console.log(result);
+
+            if (!result || !result.success) {
+
+                showToast(
+                    result?.message || "Gagal menyimpan barang.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+        } catch (error) {
+
+            console.error("SAVE RECEIVING ERROR:", error);
+
+            showToast(
+                "Terjadi kesalahan saat menyimpan barang.",
+                "error"
+            );
+
+            return;
+
+        } finally {
+
+            isSavingReceiving = false;
+
+        }
+
+        const scanTime = formatScanTime();
+
+
+        // Cari SKU
+        let skuData = findSKU(currentSKU);
+
+        // SKU belum ada
+        if (!skuData) {
+
+            skuData = {
+
+                sku: currentSKU,
+
+                qty: 1,
+
+                expanded: false,
+
+                serials: [
+
+                    {
+                        serial: currentSerial,
+                        time: scanTime,
+                        operator: receivingSession.operator
+                    }
+
+                ]
+
+            };
+
+            receivingSession.items.push(skuData);
+
+        }
+
+        // SKU sudah ada
+        else {
+
+            skuData.qty++;
+
+            skuData.serials.push({
+
+                serial: currentSerial,
+
+                time: scanTime,
+
+                operator: receivingSession.operator
+
+            });
+
+        }
+
+        // Update Last Scan
+        receivingSession.lastScan = {
+
+            sku: currentSKU,
+
+            serial: currentSerial,
+
+            time: scanTime
+
+        };
+
+        renderLastScan();
+
+        renderInfo();
+
+        renderTable();
+
+        showToast(
+            "Barang berhasil disimpan.",
+            "success"
+        );
+
+        document.getElementById("btnFinishReceiving").style.display = "block";
+
+        sku.value = "";
+
+        serial.value = "";
+
+        document.getElementById("noteInput").value = "";
+
+        receivingSession.note = "";
+
+        focusField(sku);
 
     }
 
-    const scanTime =
-    formatScanTime();
+    catch (error) {
 
-// ==========================
-// Validasi Serial Duplicate
-// ==========================
+        console.error("Receiving Error:", error);
 
+        showToast(
+            "Terjadi kesalahan saat menyimpan barang.",
+            "error"
+        );
 
-// ==========================
-// Cari SKU
-// ==========================
+    }
 
-let skuData = findSKU(currentSKU);
+    finally {
 
+        // Buka kembali tombol setelah proses selesai
+        isSavingReceiving = false;
 
-// ==========================
-// SKU BELUM ADA
-// ==========================
+        saveButton.disabled = false;
 
-if (!skuData) {
-
-    skuData = {
-
-    sku: currentSKU,
-
-    qty: 1,
-
-    expanded: false,
-
-    serials: [
-
-        {
-
-    serial: currentSerial,
-
-    time: scanTime,
-
-    operator: receivingSession.operator
+    }
 
 }
 
-    ]
-
-};
-
-    receivingSession.items.push(skuData);
-
-}
-
-
-// ==========================
-// SKU SUDAH ADA
-// ==========================
-
-else {
-
-    skuData.qty++;
-
-    skuData.serials.push({
-
-    serial: currentSerial,
-
-    time: scanTime,
-
-    operator: receivingSession.operator
-
-});
-
-}
-
-
-// ==========================
-// LAST SCAN
-// ==========================
-
-receivingSession.lastScan = {
-
-    sku: currentSKU,
-
-    serial: currentSerial,
-
-    time: scanTime
-
-};
-
-    renderLastScan();
-
-    renderInfo();
-
-    renderTable();
-
-    showToast("Barang berhasil disimpan.", "success");
-
-    document.getElementById("btnFinishReceiving").style.display = "block";
-
-    sku.value = "";
-
-    serial.value = "";
-
-    document.getElementById("noteInput").value = "";
-    receivingSession.note = "";
-
-    focusField(sku);
-
-}
 
 function formatScanTime(date = new Date()) {
 
